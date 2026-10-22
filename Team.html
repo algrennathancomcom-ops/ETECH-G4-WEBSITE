@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#080b1d">
+    <title>Meet the Spiders | Group 4</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bowlby+One+SC&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CSS\home-page.css">
+    <link rel="stylesheet" href="CSS\team-showcase.css">
+    <script src="JS\team-showcase.js" defer></script>
+  </head>
+  <body class="team-showcase-page">
+    <header class="header-section">
+      <div class="header-brand">
+        <a class="spdy-logo" href="Etech-Group-4.html" aria-label="Group 4 home">
+          <img src="images\branding\SPDY LOGO.png" alt="SPDY">
+        </a>
+        <div class="header-movie-title" aria-label="Spider-Man: Into the Spider-Verse">
+          <span class="header-movie-name">SPIDER-MAN:</span>
+          <span class="header-movie-subtitle">INTO THE SPIDER-VERSE</span>
+        </div>
+      </div>
+      <nav class="section-buttons" aria-label="Main navigation">
+        <a class="section-button" href="Etech-Group-4.html">Home</a>
+        <a class="section-button" href="Team.html" aria-current="page">Team</a>
+        <a class="section-button" href="About-us.html">About us</a>
+      </nav>
+      <button class="ticket-button" type="button" aria-label="Marvel Studios">
+        <span class="marvel-wordmark">MARVEL</span>
+        <span class="studios-wordmark">STUDIOS</span>
+      </button>
+    </header>
+    <main class="team-showcase" id="team-members" data-theme="mp1">
+      <div class="team-showcase-art-track" aria-hidden="true">
+        <img class="team-showcase-art team-showcase-art-current" src="images\member-artwork\MP-1.jpg" alt="" fetchpriority="high">
+        <img class="team-showcase-art team-showcase-art-next" src="images\member-artwork\MP-1.jpg" alt="">
+      </div>
+      <div class="team-showcase-shade" aria-hidden="true"></div>
+      <img class="team-showcase-mp1-pfp" src="images\MP1-PFP.png" alt="Jeremy Balatan">
+      <div class="team-showcase-copy" aria-live="polite">
+        <div class="team-showcase-intro">
+          <span class="team-showcase-hello">Hello</span>
+          <span class="team-showcase-my-name">I'm</span>
+          <span class="team-showcase-member-name">Jeremy Balatan</span>
+        </div>
+        <h1 class="team-showcase-spider">MILES MORALES</h1>
+        <p class="team-showcase-birthday">
+          <span class="team-showcase-birthday-text">17 years old · March 28, 2009</span>
+          <span class="team-showcase-course">Engineering</span>
+        </p>
+        <nav class="team-showcase-socials" aria-label="Jeremy's social media">
+          <a class="team-showcase-social-button" href="https://www.facebook.com/jeremy.balatan.7" aria-label="Facebook">
+            <img src="https://cdn.simpleicons.org/facebook/FFFFFF" alt="">
+          </a>
+          <a class="team-showcase-social-button" href="https://www.instagram.com/itsurboy_emy/" aria-label="Instagram">
+            <img src="https://cdn.simpleicons.org/instagram/FFFFFF" alt="">
+          </a>
+        </nav>
+      </div>
+    </main>
+
+    <nav class="team-member-strip" id="team-selector" aria-label="Choose a team member">
+      <button class="team-member-button is-active" type="button" data-index="0" data-theme="mp1" data-name="Jeremy Balatan" data-spider="MILES MORALES" data-age-birthday="17 years old · March 28, 2009" data-art="images\member-artwork\MP-1.jpg" aria-pressed="true" aria-label="Show Jeremy Balatan as Miles Morales">
+        <img src="images\team\TP-1.jpg" alt="">
+        <span>MILES MORALES</span>
+      </button>
+      <button class="team-member-button" type="button" data-index="1" data-theme="mp2" data-name="Precious Lianna Diokno" data-spider="GWEN STACY" data-age-birthday="17 years old · April 22, 2009" data-art="images\member-artwork\MP-2.jpg" aria-pressed="false" aria-label="Show Precious Lianna Diokno as Gwen Stacy">
+        <img src="images\team\TP-2.jpg" alt="">
+        <span>GWEN STACY</span>
+      </button>
+      <button class="team-member-button" type="button" data-index="2" data-theme="mp3" data-name="Alexley Atienza" data-spider="PENI PARKER" data-age-birthday="17 years old · April 3, 2009" data-art="images\member-artwork\MP-3.jpg" aria-pressed="false" aria-label="Show Alexley Atienza as Peni Parker">
+        <img src="images\team\TP-3.jpg" alt="">
+        <span>PENI PARKER</span>
+      </button>
+      <button class="team-member-button" type="button" data-index="3" data-theme="mp4" data-name="Haena Marasigan" data-spider="SPIDER-PUNK" data-age-birthday="16 years old · October 28, 2009" data-art="images\member-artwork\optimized\MP-4.jpg" aria-pressed="false" aria-label="Show Haena Marasigan as Spider-Punk">
+        <img src="images\team\TP-4.jpg" alt="">
+        <span>SPIDER-PUNK</span>
+      </button>
+      <button class="team-member-button" type="button" data-index="4" data-theme="mp5" data-name="Algren Comcom" data-spider="MIGUEL O'HARA" data-age-birthday="17 years old · January 16, 2009" data-art="images\member-artwork\MP-5.jpg" aria-pressed="false" aria-label="Show Algren Comcom as Miguel O'Hara">
+        <img src="images\team\TP-5.png" alt="">
+        <span>MIGUEL O'HARA</span>
+      </button>
+      <button class="team-member-button" type="button" data-index="5" data-theme="mp6" data-name="Rhonna Atienza" data-spider="SPIDER-NOIR" data-age-birthday="17 years old · February 21, 2009" data-art="images\member-artwork\MP-6.jpg" aria-pressed="false" aria-label="Show Rhonna Atienza as Spider-Noir">
+        <img src="images\team\TP-6.jpg" alt="">
+        <span>SPIDER-NOIR</span>
+      </button>
+      <button class="team-member-button" type="button" data-index="6" data-theme="mp7" data-name="Santino Almazan" data-spider="PETER PORKER" data-age-birthday="17 years old · September 11, 2009" data-art="images\member-artwork\MP-7.jpg" aria-pressed="false" aria-label="Show Santino Almazan as Peter Porker">
+        <img src="images\team\TP-7.jpg" alt="">
+        <span>PETER PORKER</span>
+      </button>
+    </nav>
+    <section class="team-member-profile profile-page profile-theme-mp1" id="member-profile" aria-label="Team member profile"></section>
+    <footer class="subpage-footer team-showcase-footer">
+      <p>&copy; 2026 Group 4. For educational purposes only.</p>
+      <a href="#team-members">Back to top</a>
+    </footer>
+  </body>
+</html>

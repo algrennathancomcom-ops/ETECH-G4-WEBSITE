@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Group 4</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bowlby+One+SC&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CSS\home-page.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+    <script src="JS\home-page.js" defer></script>
+  </head>
+  <body>
+    <div class="front-box">
+      <div class="front-box-background" aria-hidden="true"></div>
+      <h1 class="hero-title" aria-label="SPIDER-MAN">
+        <span class="hero-title-fill" aria-hidden="true">
+          <span class="hero-letter">S</span><span class="hero-letter">P</span><span class="hero-letter">I</span><span class="hero-letter">D</span><span class="hero-letter">E</span><span class="hero-letter">R</span><span class="hero-letter">-</span><span class="hero-letter">M</span><span class="hero-letter">A</span><span class="hero-final-letter-wrap hero-letter"><span class="hero-final-letter">N</span><span class="hero-badge">GR4</span></span>
+        </span>
+      </h1>
+      <p class="hero-subtitle" aria-hidden="true">INTO THE SPIDER-VERSE</p>
+      <div class="social-logos" role="group" aria-label="Social media logos">
+        <span class="social-logo"><img src="https://cdn.simpleicons.org/facebook/FFFFFF" alt="Facebook"></span>
+        <span class="social-logo"><img src="https://cdn.simpleicons.org/instagram/FFFFFF" alt="Instagram"></span>
+        <span class="social-logo"><img src="https://cdn.simpleicons.org/discord/FFFFFF" alt="Discord"></span>
+      </div>
+      <button class="front-location-trigger" type="button" aria-haspopup="dialog" aria-controls="front-location-dialog">
+        <span class="front-location-pin" aria-hidden="true">+</span>
+        <span class="front-location-label">SPIDEY TRACKER</span>
+      </button>
+    </div>
+    <dialog class="front-location-dialog" id="front-location-dialog" aria-labelledby="front-location-title">
+      <div class="front-location-panel">
+        <div class="front-location-heading">
+          <div class="front-location-title-group">
+            <p class="front-location-kicker">LOCATION SYSTEM // ACTIVE</p>
+            <h2 id="front-location-title">SPIDEY TRACKER</h2>
+          </div>
+          <button class="front-location-close" type="button" aria-label="Close location map">&times;</button>
+        </div>
+        <div
+          class="front-location-map"
+          id="front-location-map"
+          role="region"
+          aria-label="Interactive map centered at 13.883698158802721, 120.9133764205911"
+        ></div>
+        <div class="front-location-status">
+          <span class="front-location-status-indicator" aria-hidden="true"></span>
+          <span class="front-location-address">ILLUSTRE AVENUE, LEMERY, BATANGAS</span>
+          <span class="front-location-coordinates">13.8837 // 120.9134</span>
+        </div>
+      </div>
+    </dialog>
+    <div class="header-section">
+      <div class="header-brand">
+        <div class="spdy-logo"><img src="images\branding\SPDY LOGO.png" alt="SPDY"></div>
+        <div class="header-movie-title" aria-label="Beyond the Verse">
+          <span class="header-movie-name">BEYOND THE VERSE</span>
+          <span class="header-movie-subtitle">WELCOME TO OUR UNIVERSE</span>
+        </div>
+      </div>
+      <div class="section-buttons">
+        <button class="section-button" type="button" data-scroll-top>Home</button>
+        <a class="section-button" href="Team.html">Team</a>
+        <a class="section-button" href="About-us.html">About us</a>
+      </div>
+      <button class="ticket-button" aria-label="Marvel Studios">
+        <span class="marvel-wordmark">MARVEL</span>
+        <span class="studios-wordmark">STUDIOS</span>
+      </button>
+    </div>
+    <div class="mid-box">
+      <div class="mid-box-content">
+        <div class="mid-box-ring">
+          <div class="mid-box-panel mid-box-panel-left">
+            <img class="mid-box-image" src="images/about/optimized/ABT-2.jpg" alt="ABT-2 image" loading="lazy" decoding="async">
+            <p class="mid-box-caption">We are seven unique heroes, each with our own story, united by one mission to make our mark across the Spider-Verse.</p>
+          </div>
+          <div class="mid-box-panel mid-box-panel-center">
+            <img class="mid-box-image" src="images/about/ABT-3.jpeg" alt="ABT-3 image" loading="lazy" decoding="async">
+            <p class="mid-box-caption">Like the Spider-Verse, we are different in our own ways, but our strengths connect us and make our team extraordinary.</p>
+          </div>
+          <div class="mid-box-panel mid-box-panel-right">
+            <img class="mid-box-image" src="images/about/optimized/ABT-1.jpg" alt="ABT-1 image" loading="lazy" decoding="async">
+            <p class="mid-box-caption">Just like Spider-Man across the multiverse, we may come from different worlds, but together, we create something amazing.</p>
+          </div>
+          <div class="mid-box-panel mid-box-panel-back">
+            <img class="mid-box-image" src="images/about/ABT-4.jpeg" alt="ABT-4 image" loading="lazy" decoding="async">
+            <p class="mid-box-caption">No matter which universe we come from, we stand together as one team, ready to turn every challenge into our next adventure.</p>
+          </div>
+        </div>
+      </div>
+      <div class="mid-box-center-controls">
+        <button class="mid-box-arrow mid-box-arrow-left" type="button" aria-label="Show previous image">
+          <span aria-hidden="true">&larr;</span>
+        </button>
+        <button class="mid-box-arrow mid-box-arrow-right" type="button" aria-label="Show next image">
+          <span aria-hidden="true">&rarr;</span>
+        </button>
+      </div>
+    </div>
+    <div class="third-box" role="region" aria-label="TP image carousel. Hover the left or right edge to scroll.">
+      <h2 class="third-box-title">MEET THE TEAM</h2>
+      <div class="third-box-track">
+        <img src="images/team/TP-1.jpg" alt="TP-1 image" data-member-index="0" loading="lazy" decoding="async">
+        <img src="images/team/TP-2.jpg" alt="TP-2 image" data-member-index="1" loading="lazy" decoding="async">
+        <img src="images/team/TP-3.jpg" alt="TP-3 image" data-member-index="2" loading="lazy" decoding="async">
+        <img src="images/team/TP-4.jpg" alt="TP-4 image" data-member-index="3" loading="lazy" decoding="async">
+        <img src="images/team/TP-5.png" alt="TP-5 image" data-member-index="4" loading="lazy" decoding="async">
+        <img src="images/team/TP-6.jpg" alt="TP-6 image" data-member-index="5" loading="lazy" decoding="async">
+        <img src="images/team/TP-7.jpg" alt="TP-7 image" data-member-index="6" loading="lazy" decoding="async">
+      </div>
+      <a class="third-box-play" href="Team.html#team-members" aria-label="Go to the team section">
+        <span class="third-box-play-icon" aria-hidden="true">&#9654;</span>
+      </a>
+    </div>
+    <div class="fourth-box scroll-reveal">
+      <div class="fourth-box-black-panel">
+        <h2 class="fourth-box-title">PRAYER</h2>
+        <p class="fourth-box-prayer">Thank You for giving us another day and for blessing us with life, good health, and the people we love. Please guide us in everything we do and help us make the right decisions. Forgive us for our mistakes and teach us to be kind, patient, and understanding toward others. Protect our family, friends, and all people around the world. Give strength to those who are struggling and hope to those who are losing faith. May Your love and wisdom always be with us.</p>
+      </div>
+      <img class="fourth-box-image" src="images/prayer/PRYR.jpg" alt="PRYR" loading="lazy" decoding="async">
+      <div class="fourth-box-curtain">
+        <div class="fourth-box-curtain-half fourth-box-curtain-left"></div>
+        <div class="fourth-box-curtain-half fourth-box-curtain-right"></div>
+        <button class="fourth-box-curtain-trigger" type="button" aria-label="Open the prayer box">
+          <img src="images/prayer/PRYI.jpg" alt="" decoding="async">
+        </button>
+      </div>
+    </div>
+    <footer class="fifth-box site-footer">
+      <div class="site-footer-content">
+        <div class="site-footer-logos" role="group" aria-label="School logos">
+          <img src="images/branding/SMEI.png" alt="SMEI logo">
+          <img src="images/branding/USAL.png" alt="USAL logo">
+        </div>
+        <h2 class="site-footer-title">GROUP 4</h2>
+        <address class="site-footer-address">Illustre Avenue, Lemery, Batangas, Philippines</address>
+        <a class="site-footer-phone" href="tel:09453369345">09453369345</a>
+      </div>
+      <div class="site-footer-bottom">
+        <p class="site-footer-copyright">&copy; 2026 Group 4. For educational purposes only.</p>
+        <div class="site-footer-socials" role="group" aria-label="Social media">
+          <a class="site-footer-social-link" href="https://www.facebook.com/" aria-label="Facebook">
+            <img src="https://cdn.simpleicons.org/facebook/FFFFFF" alt="">
+          </a>
+          <a class="site-footer-social-link" href="https://discord.com/" aria-label="Discord">
+            <img src="https://cdn.simpleicons.org/discord/FFFFFF" alt="">
+          </a>
+          <a class="site-footer-social-link" href="https://www.instagram.com/" aria-label="Instagram">
+            <img src="https://cdn.simpleicons.org/instagram/FFFFFF" alt="">
+          </a>
+        </div>
+      </div>
+    </footer>
+    <div class="intro-gate" role="button" tabindex="0" aria-label="Click to open the Spider-Man mask">
+      <img class="intro-gate-half intro-gate-left" src="images\home\IS-PC.jpg" alt="">
+      <img class="intro-gate-half intro-gate-right" src="images\home\IS-PC.jpg" alt="">
+    </div>
+    
+  </body>
+</html>
