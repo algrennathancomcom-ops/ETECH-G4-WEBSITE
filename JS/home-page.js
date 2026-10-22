@@ -5,7 +5,11 @@ const carousel = document.querySelector(".mid-box-content");
 const tpCarousel = document.querySelector(".third-box");
 
 const updateHeaderOnScroll = () => {
-  header.classList.toggle("is-scrolled", window.scrollY > 40);
+  if (window.scrollY > 48) {
+    header.classList.add("is-scrolled");
+  } else if (window.scrollY < 28) {
+    header.classList.remove("is-scrolled");
+  }
 };
 
 const revealSections = document.querySelectorAll(".scroll-reveal");
@@ -31,6 +35,7 @@ const startGateAnimation = () => {
   gateStarted = true;
 
   if (reduceMotion.matches) {
+    document.body.classList.add("page-ready");
     introGate.remove();
     return;
   }
@@ -44,8 +49,8 @@ const startGateAnimation = () => {
     window.clearTimeout(gateFallback);
     introGate.remove();
   };
-  const gateFallback = window.setTimeout(finishGateAnimation, 3100);
-  window.setTimeout(() => document.body.classList.add("page-ready"), 2400);
+  const gateFallback = window.setTimeout(finishGateAnimation, 2200);
+  window.setTimeout(() => document.body.classList.add("page-ready"), 1400);
 
   coverHalves.forEach((half) => {
     half.addEventListener("transitionend", (event) => {
@@ -193,7 +198,40 @@ const centerTpCarouselImage = (image) => {
   moveSelectedImageToCenter();
 };
 
+let tpSwipeStartX = null;
+let tpSwipeStartY = null;
+let tpSwiped = false;
+
+tpCarouselTrack.addEventListener("pointerdown", (event) => {
+  if (!event.isPrimary) return;
+  tpSwipeStartX = event.clientX;
+  tpSwipeStartY = event.clientY;
+  tpSwiped = false;
+});
+
+tpCarouselTrack.addEventListener("pointermove", (event) => {
+  if (tpSwipeStartX === null) return;
+  if (Math.abs(event.clientX - tpSwipeStartX) > 12) tpSwiped = true;
+});
+
+window.addEventListener("pointerup", (event) => {
+  if (tpSwipeStartX === null) return;
+  const deltaX = event.clientX - tpSwipeStartX;
+  const deltaY = event.clientY - tpSwipeStartY;
+  tpSwipeStartX = null;
+  if (Math.abs(deltaX) < 40 || Math.abs(deltaY) > Math.abs(deltaX)) return;
+  moveTpCarousel(deltaX < 0 ? "right" : "left");
+});
+
+window.addEventListener("pointercancel", () => {
+  tpSwipeStartX = null;
+});
+
 tpCarouselTrack.addEventListener("click", (event) => {
+  if (tpSwiped) {
+    tpSwiped = false;
+    return;
+  }
   const image = event.target instanceof Element ? event.target.closest("img") : null;
   if (image && tpCarouselTrack.contains(image)) centerTpCarouselImage(image);
 });

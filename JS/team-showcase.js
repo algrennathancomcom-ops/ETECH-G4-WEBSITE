@@ -11,17 +11,20 @@ const memberButtons = document.querySelectorAll(".team-member-button");
 const memberStrip = document.querySelector(".team-member-strip");
 const memberProfile = document.querySelector(".team-member-profile");
 const header = document.querySelector(".header-section");
+const memberPfp = showcase.querySelector(".team-showcase-mp1-pfp");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const artTransitionDuration = 700;
+const pfpExitDuration = 380;
 
 let stripTimer;
 let animationFrame;
 let memberChangeTimer;
+let pfpSwapTimer;
+let pfpExitStartedAt = 0;
 let artTransitionTimer;
 let artTransitionFrame;
 let selectionToken = 0;
 let artTransitionActive = false;
-let mp6DividerElement;
 let hangingArtworkResizeObserver;
 let profileRevealObserver;
 
@@ -217,11 +220,6 @@ const escapeMarkup = (value) => String(value).replace(/[&<>"']/g, (character) =>
   "'": "&#39;"
 })[character]);
 
-const updateMp6Divider = () => {
-  if (!mp6DividerElement) return;
-  mp6DividerElement.classList.toggle("is-visible", window.scrollY > 0);
-};
-
 const setupProfileScrollReveal = () => {
   profileRevealObserver?.disconnect();
   profileRevealObserver = undefined;
@@ -264,10 +262,13 @@ const setupHangingArtwork = (hobbiesSection, prefix) => {
 
   let anchorX;
   let pointerMoved = false;
+  let sectionWidth = 0;
+  let sectionHeight = 0;
+  let hangerWidth = 0;
   const anchorRatio = prefix === "mp1" ? 0.18 : prefix === "mp4" ? 0.9 : prefix === "mp2" || prefix === "mp5" || prefix === "mp7" ? 0.82 : prefix === "mp3" ? 0.2 : prefix === "mp6" ? 0.1 : 0.88;
-  const getAnchorX = (sectionWidth) => prefix === "mp3"
-    ? hanger.offsetWidth / 2 + 104
-    : sectionWidth * anchorRatio;
+  const getAnchorX = (width) => prefix === "mp3"
+    ? hangerWidth / 2 + 104
+    : width * anchorRatio;
   const restLength = prefix === "mp1" || prefix === "mp2" || prefix === "mp4" || prefix === "mp5" || prefix === "mp7" ? 160 : 64;
   let ropeLength = restLength;
   let radialVelocity = 0;
@@ -277,15 +278,18 @@ const setupHangingArtwork = (hobbiesSection, prefix) => {
   let previousFrameTime;
   const maxSwingAngle = Math.PI * 0.49;
 
-  const updateHangingString = () => {
+  const refreshLayoutBounds = () => {
     const sectionBounds = hobbiesSection.getBoundingClientRect();
-    const hangerBounds = hanger.getBoundingClientRect();
-    anchorX = getAnchorX(sectionBounds.width);
-    const hangerX = hanger.offsetLeft + hanger.offsetWidth / 2;
-    const hangerY = hanger.offsetTop;
-    stringSvg.setAttribute("viewBox", `0 0 ${sectionBounds.width} ${sectionBounds.height}`);
-    stringSvg.setAttribute("width", String(sectionBounds.width));
-    stringSvg.setAttribute("height", String(sectionBounds.height));
+    sectionWidth = sectionBounds.width;
+    sectionHeight = sectionBounds.height;
+    hangerWidth = hanger.offsetWidth;
+    anchorX = getAnchorX(sectionWidth);
+  };
+
+  const updateHangingString = (hangerX, hangerY) => {
+    stringSvg.setAttribute("viewBox", `0 0 ${sectionWidth} ${sectionHeight}`);
+    stringSvg.setAttribute("width", String(sectionWidth));
+    stringSvg.setAttribute("height", String(sectionHeight));
     if (stringPath) {
       const deltaX = hangerX - anchorX;
       const deltaY = hangerY;
@@ -311,16 +315,16 @@ const setupHangingArtwork = (hobbiesSection, prefix) => {
   };
 
   const positionHanger = () => {
-    const sectionBounds = hobbiesSection.getBoundingClientRect();
-    const hangerWidth = hanger.offsetWidth;
     const hangerX = anchorX + ropeLength * Math.sin(angle);
     const hangerY = ropeLength * Math.cos(angle);
-    const maxLeft = Math.max(0, sectionBounds.width - hangerWidth);
-    hanger.style.left = `${Math.min(maxLeft, Math.max(0, hangerX - hangerWidth / 2))}px`;
-    hanger.style.top = `${Math.max(24, hangerY)}px`;
+    const maxLeft = Math.max(0, sectionWidth - hangerWidth);
+    const clampedLeft = Math.min(maxLeft, Math.max(0, hangerX - hangerWidth / 2));
+    const clampedTop = Math.max(24, hangerY);
+    hanger.style.left = `${clampedLeft}px`;
+    hanger.style.top = `${clampedTop}px`;
     hanger.style.right = "auto";
     hanger.style.transform = `rotate(${angle * 0.35}rad)`;
-    updateHangingString();
+    updateHangingString(clampedLeft + hangerWidth / 2, clampedTop);
   };
 
   const stopSwing = () => {
@@ -393,8 +397,7 @@ const setupHangingArtwork = (hobbiesSection, prefix) => {
     if (event.target === quote) quote.close();
   });
 
-  const sectionBounds = hobbiesSection.getBoundingClientRect();
-  anchorX = getAnchorX(sectionBounds.width);
+  refreshLayoutBounds();
   angle = 0;
   positionHanger();
 
@@ -447,7 +450,7 @@ const setupHangingArtwork = (hobbiesSection, prefix) => {
   const finishDragging = (event) => {
     if (hanger.hasPointerCapture(event.pointerId)) hanger.releasePointerCapture(event.pointerId);
     hanger.classList.remove("is-dragging");
-    updateHangingString();
+    positionHanger();
     startSwing();
   };
   hanger.addEventListener("pointerup", finishDragging);
@@ -462,7 +465,7 @@ const setupHangingArtwork = (hobbiesSection, prefix) => {
   hanger.addEventListener("lostpointercapture", () => {
     if (!hanger.classList.contains("is-dragging")) return;
     hanger.classList.remove("is-dragging");
-    updateHangingString();
+    positionHanger();
     startSwing();
   });
   hanger.addEventListener("keydown", (event) => {
@@ -492,9 +495,8 @@ const setupHangingArtwork = (hobbiesSection, prefix) => {
   hangingArtworkResizeObserver?.disconnect();
   if ("ResizeObserver" in window) {
     hangingArtworkResizeObserver = new ResizeObserver(() => {
-      const bounds = hobbiesSection.getBoundingClientRect();
-      anchorX = getAnchorX(bounds.width);
-      const hangerX = hanger.offsetLeft + hanger.offsetWidth / 2;
+      refreshLayoutBounds();
+      const hangerX = hanger.offsetLeft + hangerWidth / 2;
       const offsetX = hangerX - anchorX;
       angle = Math.asin(Math.max(-0.9, Math.min(0.9, offsetX / ropeLength)));
       positionHanger();
@@ -536,7 +538,6 @@ const renderMemberProfile = (button) => {
             </figure>`).join("")}
         </div>
       </section>
-      ${theme === "mp6" ? '<div class="mp6-section-divider" aria-hidden="true"></div>' : ""}
       <div class="mp2-info-box mp2-info-box-pink mp2-course-goals">
         ${details.courseArt ? `
         <img class="${layoutTheme}-course-goals-artwork" src="${escapeMarkup(details.courseArt)}" alt="${escapeMarkup(details.courseArtAlt)}" loading="lazy" decoding="async">` : ""}
@@ -685,23 +686,50 @@ const renderMemberProfile = (button) => {
       console.error(`Unable to load ${musicVideo.currentSrc || musicVideo.src}.`, musicVideo.error);
     });
   }
-  window.removeEventListener("scroll", updateMp6Divider);
-  window.removeEventListener("resize", updateMp6Divider);
-  mp6DividerElement = undefined;
   if (theme === "mp1" || theme === "mp2" || theme === "mp3" || theme === "mp4" || theme === "mp5" || theme === "mp6" || theme === "mp7") {
     setupHangingArtwork(
       memberProfile.querySelector(".profile-detail-section-hobbies"),
       layoutTheme
     );
   }
-  if (theme === "mp6") {
-    mp6DividerElement = memberProfile.querySelector(".mp6-section-divider");
-    if (mp6DividerElement) {
-      window.addEventListener("scroll", updateMp6Divider, { passive: true });
-      window.addEventListener("resize", updateMp6Divider);
-      updateMp6Divider();
+};
+
+const playPfpEnter = () => {
+  memberPfp.classList.remove("is-pfp-exiting", "is-pfp-entering");
+  void memberPfp.offsetWidth;
+  memberPfp.classList.add("is-pfp-entering");
+};
+
+const playPfpExit = () => {
+  window.clearTimeout(pfpSwapTimer);
+  memberPfp.classList.remove("is-pfp-entering");
+  if (memberPfp.classList.contains("is-pfp-exiting")) return;
+  void memberPfp.offsetWidth;
+  memberPfp.classList.add("is-pfp-exiting");
+  pfpExitStartedAt = performance.now();
+};
+
+const applyPfp = (button) => {
+  const pfp = memberProfiles[Number(button.dataset.index)]?.pfp;
+  const swapPfp = () => {
+    memberPfp.classList.remove("is-pfp-exiting");
+    if (pfp) {
+      memberPfp.src = pfp;
+    } else {
+      memberPfp.removeAttribute("src");
     }
+    memberPfp.alt = button.dataset.name;
+    void memberPfp.offsetWidth;
+    memberPfp.classList.add("is-pfp-entering");
+  };
+  window.clearTimeout(pfpSwapTimer);
+  if (reduceMotion.matches) {
+    memberPfp.classList.remove("is-pfp-exiting", "is-pfp-entering");
+    swapPfp();
+    return;
   }
+  const remainingExitTime = Math.max(0, pfpExitDuration - (performance.now() - pfpExitStartedAt));
+  pfpSwapTimer = window.setTimeout(swapPfp, remainingExitTime);
 };
 
 const finishArtTransition = () => {
@@ -723,11 +751,11 @@ const finishArtTransition = () => {
 
 const showMember = async (button, skipScroll = false) => {
   const token = ++selectionToken;
-  window.clearTimeout(memberChangeTimer);
 
   const currentIndex = [...memberButtons].findIndex((memberButton) => memberButton.getAttribute("aria-pressed") === "true");
   const targetIndex = Number(button.dataset.index);
   if (targetIndex === currentIndex) return;
+  window.clearTimeout(memberChangeTimer);
 
   if (!skipScroll && window.scrollY > 1) {
     window.scrollTo(0, 0);
@@ -753,6 +781,8 @@ const showMember = async (button, skipScroll = false) => {
   void artTrack.offsetWidth;
   showcase.classList.toggle("slide-right", slideRight);
   showcase.classList.toggle("slide-left", !slideRight);
+  if (!reduceMotion.matches) playPfpExit();
+  applyPfp(button);
   nextArt.src = button.dataset.art;
   showcase.dataset.theme = button.dataset.theme;
   showcase.classList.add("is-transitioning");
@@ -781,13 +811,6 @@ const showMember = async (button, skipScroll = false) => {
       socialLinks.querySelector('a[aria-label="Facebook"]').href = memberDetails.socials.facebook;
       socialLinks.querySelector('a[aria-label="Instagram"]').href = memberDetails.socials.instagram;
     }
-    const memberPfp = showcase.querySelector(".team-showcase-mp1-pfp");
-    if (memberDetails.pfp) {
-      memberPfp.src = memberDetails.pfp;
-    } else {
-      memberPfp.removeAttribute("src");
-    }
-    memberPfp.alt = button.dataset.name;
     renderMemberProfile(button);
     showcase.classList.remove("is-changing");
     window.cancelAnimationFrame(animationFrame);
@@ -827,6 +850,26 @@ memberButtons.forEach((button) => {
 });
 
 renderMemberProfile(memberButtons[0]);
+playPfpEnter();
+
+document.addEventListener("click", (event) => {
+  if (event.defaultPrevented || event.button !== 0) return;
+  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  const link = event.target.closest('a[href$=".html"]');
+  if (!link) return;
+  event.preventDefault();
+  playPfpExit();
+  window.setTimeout(() => {
+    window.location.href = link.href;
+  }, reduceMotion.matches ? 0 : pfpExitDuration);
+});
+
+window.addEventListener("pageshow", (event) => {
+  if (!event.persisted) return;
+  memberPfp.classList.remove("is-pfp-exiting");
+  playPfpEnter();
+});
+
 window.addEventListener("scroll", hideStripWhileScrolling, { passive: true });
 window.addEventListener("scroll", updateHeaderOnScroll, { passive: true });
 window.addEventListener("wheel", hideStripWhileScrolling, { passive: true });
