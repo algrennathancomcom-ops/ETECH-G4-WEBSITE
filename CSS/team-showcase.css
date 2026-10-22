@@ -2679,6 +2679,13 @@ html {
     text-align: left;
 }
 
+.team-member-profile.profile-theme-mp6 .mp2-fun-facts {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+    justify-items: start;
+    text-align: left;
+}
+
 .team-member-profile.profile-theme-mp6 .mp6-fun-facts-artwork {
     grid-column: 5;
     grid-row: 1;
