@@ -2458,7 +2458,7 @@ html {
 
 .team-member-profile.profile-theme-mp4 .mp2-fun-facts-box > .profile-detail-section h2,
 .team-member-profile.profile-theme-mp4 .mp2-fun-facts-box > .profile-detail-section li {
-    text-align: right;
+    text-align: left;
 }
 
 .team-member-profile.profile-theme-mp4 .mp4-fun-facts-artwork {
@@ -2583,6 +2583,10 @@ html {
 .team-member-profile.profile-theme-mp6 .mp6-hanging-art img {
     height: 100%;
     object-fit: cover;
+}
+
+.team-member-profile.profile-theme-mp6 .profile-detail-section-hobbies.is-hanging-art-raised {
+    z-index: 10;
 }
 
 .team-member-profile.profile-theme-mp6 .mp6-hanging-quote {
@@ -4283,7 +4287,7 @@ html {
 
     .team-member-profile.profile-theme-mp4 .mp2-fun-facts-box > .profile-detail-section h2,
     .team-member-profile.profile-theme-mp4 .mp2-fun-facts-box > .profile-detail-section li {
-        text-align: right;
+        text-align: left;
     }
 
     .team-member-profile.profile-theme-mp4 .mp2-fun-facts-box > .mp1-music-player {
@@ -4723,7 +4727,7 @@ html {
     grid-row: 1;
     width: calc(100% + clamp(18px, 6vw, 96px) + 4px);
     margin-right: calc(-1 * (clamp(18px, 6vw, 96px) + 4px));
-    padding: 16px clamp(36px, 5vw, 64px) 16px 24px;
+    padding: 16px 50px 16px 24px;
     border-right: 0;
     border-left: 2px solid var(--profile-accent);
     text-align: right;
@@ -4738,6 +4742,13 @@ html {
 
 .team-member-profile.profile-theme-mp7 .mp2-fun-facts li {
     justify-content: flex-end;
+    text-align: right;
+}
+
+.team-member-profile.profile-theme-mp7 .mp2-fun-facts {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+    justify-items: end;
     text-align: right;
 }
 
@@ -5012,7 +5023,7 @@ html {
 
     .team-member-profile.profile-theme-mp4 .mp2-fun-facts-box > .profile-detail-section h2,
     .team-member-profile.profile-theme-mp4 .mp2-fun-facts-box > .profile-detail-section li {
-        text-align: right;
+        text-align: left;
     }
 
     .team-member-profile.profile-theme-mp7 .mp2-fun-facts-box > .mp1-music-player {
@@ -5085,8 +5096,16 @@ html {
 .team-member-profile.profile-theme-mp4 .mp2-fun-facts-box > .profile-detail-section {
     width: 100%;
     margin: 0;
-    padding: 16px 0 16px 24px;
+    padding: 16px 0 16px 50px;
     border-left: 2px solid var(--profile-accent);
+    text-align: left;
+}
+
+.team-member-profile.profile-theme-mp4 .mp2-fun-facts {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+    justify-items: start;
+    text-align: left;
 }
 
 .team-member-profile.profile-theme-mp4 .mp4-fun-facts-artwork {
