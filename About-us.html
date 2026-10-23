@@ -6,8 +6,11 @@
     <title>About Us | Group 4</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bowlby+One+SC&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bowlby+One+SC&family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="CSS\home-page.css">
+    <link rel="stylesheet" href="CSS\game-page.css">
+    <script src="JS\about-page.js" defer></script>
+    <script src="JS\spidey-run.js" defer></script>
   </head>
   <body class="content-page">
     <header class="header-section">
@@ -39,11 +42,42 @@
       </section>
       <section class="about-projects" aria-labelledby="about-projects-heading">
         <h2 id="about-projects-heading">Projects</h2>
-        <div class="about-projects-box">
-          <img class="about-projects-image" src="images\PRT-1.jpg" alt="PRT-1 project">
-          <span class="about-projects-label">1st Project</span>
-          <time class="about-projects-date" datetime="2026-09-25">9/25/2026</time>
+        <div class="about-projects-grid">
+          <button class="about-projects-box" type="button" aria-haspopup="dialog" aria-controls="about-project-dialog">
+            <img class="about-projects-image" src="images\PRT-1.jpg" alt="PRT-1 project">
+            <span class="about-projects-label">1st Project</span>
+            <time class="about-projects-date" datetime="2026-09-25">9/25/2026</time>
+          </button>
+          <button class="about-projects-box" type="button" aria-haspopup="dialog" aria-controls="about-project-dialog">
+            <img class="about-projects-image" src="images\PRT-2.png" alt="PRT-2 project" loading="lazy" decoding="async">
+            <span class="about-projects-label">2nd Project</span>
+            <time class="about-projects-date" datetime="2026-10-23">10/23/2026</time>
+          </button>
         </div>
+      </section>
+      <dialog class="about-project-dialog" id="about-project-dialog" aria-label="Project preview">
+        <button class="about-project-dialog-close" type="button" aria-label="Close project preview">&times;</button>
+        <img class="about-project-dialog-image" src="" alt="">
+      </dialog>
+      <section class="about-game" aria-labelledby="about-game-heading">
+        <h2 id="about-game-heading">Spidey Run</h2>
+        <p class="about-game-intro">Our friendly neighbourhood runner. Leap the buildings, keep the streak alive, and do not get squashed.</p>
+        <div class="spidey-run-stage" tabindex="0" aria-label="Spidey Run game. Click the stage, then press space or tap to jump.">
+          <canvas class="spidey-run-canvas" width="960" height="320" role="img" aria-label="Spidey Run: jump over the buildings"></canvas>
+          <div class="spidey-run-hud">
+            <span class="spidey-run-best">HI 00000</span>
+            <span class="spidey-run-score">00000</span>
+          </div>
+          <div class="spidey-run-overlay">
+            <p class="spidey-run-overlay-title">Spidey Run</p>
+            <p class="spidey-run-overlay-text">Press space, up, or tap to jump the skyline</p>
+          </div>
+        </div>
+        <p class="spidey-run-keys">
+          <kbd>Space</kbd>
+          <kbd>&uarr;</kbd>
+          <span>or tap the stage to jump. Speed keeps climbing until you hit a building.</span>
+        </p>
       </section>
       <div class="about-page-logos" role="group" aria-label="School logos">
         <img src="images/branding/SMEI.png" alt="SMEI logo" loading="lazy" decoding="async">
