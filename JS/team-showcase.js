@@ -270,6 +270,7 @@ const setupHangingArtwork = (hobbiesSection, prefix) => {
     ? hangerWidth / 2 + 104
     : width * anchorRatio;
   const restLength = prefix === "mp1" || prefix === "mp2" || prefix === "mp4" || prefix === "mp5" || prefix === "mp7" ? 160 : 64;
+  const minRopeLength = Math.min(90, restLength);
   let ropeLength = restLength;
   let radialVelocity = 0;
   let angle;
@@ -279,11 +280,15 @@ const setupHangingArtwork = (hobbiesSection, prefix) => {
   const maxSwingAngle = Math.PI * 0.49;
 
   const refreshLayoutBounds = () => {
-    const sectionBounds = hobbiesSection.getBoundingClientRect();
-    sectionWidth = sectionBounds.width;
-    sectionHeight = sectionBounds.height;
+    const stringBounds = stringSvg.getBoundingClientRect();
+    sectionWidth = stringBounds.width;
+    sectionHeight = stringBounds.height;
     hangerWidth = hanger.offsetWidth;
-    anchorX = getAnchorX(sectionWidth);
+    const halfHangerWidth = hangerWidth / 2;
+    anchorX = Math.min(
+      Math.max(halfHangerWidth, sectionWidth - halfHangerWidth),
+      Math.max(halfHangerWidth, getAnchorX(sectionWidth))
+    );
   };
 
   const updateHangingString = (hangerX, hangerY) => {
@@ -345,12 +350,10 @@ const setupHangingArtwork = (hobbiesSection, prefix) => {
     angularVelocity += acceleration * deltaTime;
     angle += angularVelocity * deltaTime;
 
-    if (prefix === "mp1" || prefix === "mp2") {
-      const stretch = ropeLength - restLength;
-      radialVelocity += (-stretch * 32 - radialVelocity * 12) * deltaTime;
-      ropeLength += radialVelocity * deltaTime;
-      ropeLength = Math.max(90, Math.min(420, ropeLength));
-    }
+    const stretch = ropeLength - restLength;
+    radialVelocity += (-stretch * 32 - radialVelocity * 12) * deltaTime;
+    ropeLength += radialVelocity * deltaTime;
+    ropeLength = Math.max(minRopeLength, Math.min(420, ropeLength));
 
     if (Math.abs(angle) > maxSwingAngle) {
       angle = Math.sign(angle) * maxSwingAngle;
@@ -428,7 +431,7 @@ const setupHangingArtwork = (hobbiesSection, prefix) => {
       + event.clientX - Number(hanger.dataset.dragX);
     const offsetY = Math.max(30, Number(hanger.dataset.dragOffsetY)
       + event.clientY - Number(hanger.dataset.dragY));
-    const nextLength = Math.max(90, Math.min(420, Math.hypot(offsetX, offsetY)));
+    const nextLength = Math.max(minRopeLength, Math.min(420, Math.hypot(offsetX, offsetY)));
     const nextAngle = Math.max(-maxSwingAngle, Math.min(
       maxSwingAngle,
       Math.atan2(offsetX, offsetY)

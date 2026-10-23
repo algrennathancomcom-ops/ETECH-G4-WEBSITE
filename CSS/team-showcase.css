@@ -5287,3 +5287,26 @@ html {
         backdrop-filter: none;
     }
 }
+
+/* Above the fixed member strip (z-index 5) so the hanger stays grabbable. */
+.team-member-profile .profile-detail-section-hobbies {
+    z-index: 10;
+}
+
+/* The hanger leaves the section while swinging; clipping it sliced the circle on phones/tablets. */
+.team-member-profile:is(.profile-theme-mp1, .profile-theme-mp2, .profile-theme-mp3, .profile-theme-mp4, .profile-theme-mp6, .profile-theme-mp7) .profile-detail-section-hobbies {
+    overflow: visible;
+}
+
+/* The gallery is a same-z positioned sibling that used to paint over the string. */
+.team-member-profile:is(.profile-theme-mp1, .profile-theme-mp2, .profile-theme-mp3, .profile-theme-mp4, .profile-theme-mp6, .profile-theme-mp7) :is(.mp1-hanging-string, .mp2-hanging-string, .mp3-hanging-string, .mp4-hanging-string, .mp6-hanging-string, .mp7-hanging-string) {
+    z-index: 3;
+}
+
+.team-member-profile:is(.profile-theme-mp1, .profile-theme-mp2, .profile-theme-mp3, .profile-theme-mp4, .profile-theme-mp6, .profile-theme-mp7) :is(.mp1-hanging-art, .mp2-hanging-art, .mp3-hanging-art, .mp4-hanging-art, .mp6-hanging-art, .mp7-hanging-art) {
+    z-index: 4;
+}
+
+.team-member-profile:is(.profile-theme-mp1, .profile-theme-mp2, .profile-theme-mp3, .profile-theme-mp4, .profile-theme-mp6, .profile-theme-mp7) :is(.mp1-hanging-art, .mp2-hanging-art, .mp3-hanging-art, .mp4-hanging-art, .mp6-hanging-art, .mp7-hanging-art).is-dragging {
+    z-index: 5;
+}
