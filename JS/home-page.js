@@ -328,20 +328,21 @@ const initializeLocationMap = () => {
   }
 
   const coordinates = [13.883698158802721, 120.9133764205911];
+  const pinHtml = (image, name) => `<span class="front-location-marker"><span class="front-location-marker-shape"><img src="${image}" alt=""></span></span><span class="front-location-nameplate">${name}</span>`;
   const markerIcon = window.L.divIcon({
     className: "front-location-leaflet-icon",
-    html: '<span class="front-location-marker"><span class="front-location-marker-shape"><img src="images/branding/SPDY%20LOGO.png" alt=""></span></span>',
+    html: pinHtml("images/branding/SPDY%20LOGO.png", "Headquarters"),
     iconSize: [56, 70],
     iconAnchor: [28, 70],
   });
   const memberLocations = [
-    { name: "MP1", coordinates: [13.849321870446255, 120.91741058631031], image: "images/MP1-L.jpg" },
-    { name: "MP2", coordinates: [13.877003430511047, 120.91535987698552], image: "images/MP2-L.jpg" },
-    { name: "MP3", coordinates: [13.938742803292746, 120.81699329617732], image: "images/MP3-L.jpg" },
-    { name: "MP4", coordinates: [13.879384934140203, 120.95148362584057], image: "images/MP4-L.jpg" },
-    { name: "MP5", coordinates: [13.933047545419353, 120.86475023245707], image: "images/MP5-L.jpg" },
-    { name: "MP6", coordinates: [13.883327762348083, 120.93624779542883], image: "images/MP6-L.avif" },
-    { name: "MP7", coordinates: [13.884487925780345, 120.9236234251789], image: "images/MP7-L.jpg" },
+    { name: "Jeremy", coordinates: [13.849321870446255, 120.91741058631031], image: "images/MP1-L.jpg" },
+    { name: "Precious", coordinates: [13.877003430511047, 120.91535987698552], image: "images/MP2-L.jpg" },
+    { name: "Alexley", coordinates: [13.938742803292746, 120.81699329617732], image: "images/MP3-L.jpg" },
+    { name: "Haena", coordinates: [13.879384934140203, 120.95148362584057], image: "images/MP4-L.jpg" },
+    { name: "Algren", coordinates: [13.933047545419353, 120.86475023245707], image: "images/MP5-L.jpg" },
+    { name: "Santino", coordinates: [13.883327762348083, 120.93624779542883], image: "images/MP7-L.jpg" },
+    { name: "Rhonna", coordinates: [13.884487925780345, 120.9236234251789], image: "images/MP6-L.avif" },
   ];
 
   locationMap = window.L.map(locationMapElement).fitBounds(
@@ -352,27 +353,52 @@ const initializeLocationMap = () => {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     maxZoom: 19,
   }).addTo(locationMap);
-  window.L.marker(coordinates, {
-    icon: markerIcon,
-    title: "SPDY location",
-    alt: "SPDY location",
-    keyboard: true,
-  }).addTo(locationMap);
-  memberLocations.forEach(({ name, coordinates: memberCoordinates, image }) => {
-    const memberIcon = window.L.divIcon({
-      className: "front-location-leaflet-icon front-location-member-icon",
-      html: `<span class="front-location-marker front-location-member-marker"><span class="front-location-marker-shape"><img src="${image}" alt=""></span></span>`,
-      iconSize: [44, 56],
-      iconAnchor: [22, 56],
-    });
+  let openPin;
 
-    window.L.marker(memberCoordinates, {
-      icon: memberIcon,
-      title: `${name} location`,
+  const closePin = () => {
+    if (!openPin) return;
+    openPin.element.classList.remove("is-named");
+    openPin.marker.setZIndexOffset(0);
+    openPin = null;
+  };
+
+  const addPin = (position, icon, name) => {
+    const marker = window.L.marker(position, {
+      icon,
       alt: `${name} location`,
       keyboard: true,
     }).addTo(locationMap);
+    const element = marker.getElement();
+
+    marker.on("click", () => {
+      const isReopening = !openPin || openPin.marker !== marker;
+      closePin();
+      if (!isReopening) return;
+      element.classList.add("is-named");
+      // The pins crowd together, so the opened one has to sit above its neighbours.
+      marker.setZIndexOffset(1000);
+      openPin = { marker, element };
+    });
+  };
+
+  addPin(coordinates, markerIcon, "Headquarters");
+  memberLocations.forEach(({ name, coordinates: memberCoordinates, image }) => {
+    addPin(
+      memberCoordinates,
+      window.L.divIcon({
+        className: "front-location-leaflet-icon front-location-member-icon",
+        html: pinHtml(image, name),
+        iconSize: [44, 56],
+        iconAnchor: [22, 56],
+      }),
+      name,
+    );
   });
+
+  locationMapElement.addEventListener("click", (event) => {
+    if (!event.target.closest(".front-location-leaflet-icon")) closePin();
+  });
+  locationDialog.addEventListener("close", closePin);
   window.setTimeout(() => locationMap.invalidateSize(), 460);
 };
 
